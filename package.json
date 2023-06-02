@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "portkill 5000 && node server/index.js",
+    "start-watch": "portkill 5000 && nodemon server/index.js",
+    "dev": "concurrently \"npm run start-watch\" \"cd client && portkill 3000 && npm start\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {}
+}
