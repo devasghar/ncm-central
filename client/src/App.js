@@ -1,7 +1,9 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Home from "./pages/Home";
-import Tasks from "./pages/Tasks";
+import Clients from "./pages/Clients";
 import Navbar from "./components/Navbar";
+import Creds from "./pages/Creds";
+import Visitors from "./pages/Visitors";
 
 function App() {
     return (
@@ -15,8 +17,17 @@ function App() {
                             element={<Home/>}
                         />
                         <Route
-                            path={"/tasks"}
-                            element={<Tasks/>}
+                            path={"/creds"}
+                            element={<Creds/>}
+                        />
+                        <Route
+                            path={"/clients"}
+                            element={<Clients/>}
+                        />
+
+                        <Route
+                            path={"/visitors"}
+                            element={<Visitors/>}
                         />
                     </Routes>
                 </div>

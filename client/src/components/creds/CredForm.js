@@ -1,5 +1,5 @@
-import {useState} from "react";
-import {useCredsContext} from "../hooks/useCredsContext";
+import {useEffect, useState} from "react";
+import {useCredsContext} from "../../hooks/useCredsContext";
 
 const CredForm = () => {
     const {dispatch} = useCredsContext()
@@ -8,7 +8,13 @@ const CredForm = () => {
     const [url, setUrl] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+    const [token, setToken] = useState(null)
     const [emptyFields, setEmptyFields] = useState([]);
+
+    useEffect(() => {
+        const token = localStorage.getItem('jwt');
+        setToken(token)
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -23,7 +29,8 @@ const CredForm = () => {
             method: "POST",
             body: JSON.stringify(cred),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
             }
         })
 
@@ -36,7 +43,6 @@ const CredForm = () => {
         if (res.ok) {
             setError(null)
             setEmptyFields([])
-            console.log('New cred added')
             setUsername('')
             setUrl('')
             setPassword('')

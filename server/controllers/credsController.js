@@ -1,24 +1,28 @@
-const Cred = require('../models/CredsModel')
+const Cred = require('../models/credsModel')
 const mongoose = require('mongoose')
 
 const createCred = async (req, res) => {
     const {
         username,
         password,
-        url
+        url,
     } = req.body
 
     let emptyFields = []
-    if(!username) {
+
+    if (!username) {
         emptyFields.push('username')
     }
-    if(!password) {
+
+    if (!password) {
         emptyFields.push('password')
     }
-    if(!url) {
+
+    if (!url) {
         emptyFields.push('url')
     }
-    if(emptyFields.length > 0) {
+
+    if (emptyFields.length > 0) {
         return res.status(400).json({error: 'Please fill in all the fields', emptyFields})
     }
 
@@ -87,10 +91,32 @@ const updateCred = async (req, res) => {
     res.status(200).json(cred)
 }
 
+const findCreds = async (req, res) => {
+    const {query} = req.params;
+
+    const cred = await Cred.find({
+        $or: [
+            {username: {$regex: query, $options: 'i'}},
+            {url: {$regex: query, $options: 'i'}},
+        ],
+    })
+
+    if (!cred) {
+        return res.status(400).json({error: 'We could not action the request.'})
+    }
+
+    if(cred.length === 0) {
+        return res.status(200).json({error: 'This query produced no results.'})
+    }
+
+    res.status(200).json(cred)
+}
+
 module.exports = {
     createCred,
     getCreds,
     getCred,
     deleteCred,
-    updateCred
+    updateCred,
+    findCreds
 }

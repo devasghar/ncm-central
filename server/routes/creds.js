@@ -5,7 +5,8 @@ const {
     getCreds,
     getCred,
     deleteCred,
-    updateCred
+    updateCred,
+    findCreds
 } = require('../controllers/credsController')
 
 router.post('/', createCred);
@@ -17,5 +18,7 @@ router.get('/:id', getCred);
 router.delete('/:id', deleteCred);
 
 router.patch('/:id', updateCred);
+
+router.get('/find/:query', findCreds);
 
 module.exports = router;
